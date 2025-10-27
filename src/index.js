@@ -14,12 +14,17 @@ function getRequiredData(data)
     const day=data.days[0];
     return {address,condition,day};
 }
-function showData(location)
+async function showData(location)
 {
-    getWeather(location).then(function(fullData){
+    const fullData=await getWeather(location);
     data=getRequiredData(fullData);
-    console.log(data.condition.conditions);
-});
+    displayResult(data);
+
+}
+function displayResult(data)
+{
+    const container=document.querySelector('.result');
+    container.textContent=data.condition.conditions;
 }
 //main
 let data;
