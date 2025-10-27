@@ -3,9 +3,11 @@ console.log("hello");
 
 class weatherApi
 {
-    constructor(){}
+    constructor(){
 
-    data;
+    this.data;
+    }
+
     async getWeather(location)
     {
         const response=await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+location+'?key=3F26HRSJQUHVH5X589RRYHJVR');
@@ -26,7 +28,7 @@ class weatherApi
     {
         const fullData=await this.getWeather(location);
         this.data=this.getRequiredData(fullData);
-        domItem.displayResult(this.data);
+        console.log(this.data);
     }
 
 }
@@ -48,7 +50,6 @@ class domStuff
         fields[2].children[0].textContent=data.condition.conditions;
         this.setTempUnit(1-this.unit,data);
         fields[5].children[0].textContent=data.description;
-        console.log(data.description);
         
     }
 
@@ -81,29 +82,41 @@ class domStuff
     }
 
 }
-
+class controlFlow
+{
+    constructor(){
+        this.apiObject=new weatherApi();
+        this.domItem=new domStuff();
+        this.newWeather('london');
+        searchBtn.addEventListener('click',()=>{
+            const location=searchBox.value;
+            if(location==="")
+            {
+                alert('put some location first');
+            }
+            else
+            {
+                this.newWeather(location);
+            }
+        })
+        console.log(this.domItem);
+        unitBtn.addEventListener('click',(event)=>
+        {
+            console.log(this.domItem);
+            this.domItem.setTempUnit(this.domItem.unit,this.apiObject.data);
+            this.domItem.unit=1-this.domItem.unit;
+        })
+    }
+    async newWeather(location)
+    {
+        await this.apiObject.showData(location);
+        this.domItem.displayResult(this.apiObject.data);
+    }
+    
+}
 //main
-const apiObject=new weatherApi();
-const domItem=new domStuff();
-apiObject.showData('london',domItem);
 const form=document.querySelector('form');
 const searchBox=form.querySelector('input');
 const searchBtn=form.querySelector('button');
 const unitBtn=document.querySelector('.tempUnit');
-
-searchBtn.addEventListener('click',function(){
-    const location=searchBox.value;
-    if(location==="")
-    {
-        alert('put some location first');
-    }
-    else
-    {
-        apiObject.showData(location);
-    }
-})
-unitBtn.addEventListener('click',function(event)
-{
-    domItem.setTempUnit(domItem.unit,apiObject.data);
-    domItem.unit=1-domItem.unit;
-})
+const controlItem=new controlFlow();
