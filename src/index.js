@@ -10,9 +10,10 @@ async function getWeather(location)
 function getRequiredData(data)
 {
     const address=data.address;
+    const description=data.description;
     const condition=data.currentConditions;
     const day=data.days[0];
-    return {address,condition,day};
+    return {address,description,condition,day};
 }
 async function showData(location)
 {
@@ -24,7 +25,15 @@ async function showData(location)
 function displayResult(data)
 {
     const container=document.querySelector('.result');
-    container.textContent=data.condition.conditions;
+    const fields=container.children;
+    console.log(fields[0].children);
+    fields[0].children[0].textContent=data.address;
+    fields[1].children[0].textContent=data.day.datetime;
+    fields[2].children[0].textContent=data.condition.conditions;
+    fields[3].children[0].textContent=data.condition.temp+'°C';
+    fields[4].children[0].textContent=data.condition.feelslike;
+    fields[5].children[0].textContent=data.description;
+    
 }
 //main
 let data;
