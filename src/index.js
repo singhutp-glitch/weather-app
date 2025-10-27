@@ -3,7 +3,7 @@ console.log("hello");
 
 async function getWeather(location)
 {
-    const response=await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+location+'?unitGroup=metric&include=current&key=3F26HRSJQUHVH5X589RRYHJVR');
+    const response=await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+location+'?key=3F26HRSJQUHVH5X589RRYHJVR');
     const data=await response.json();
     return data;
 }
@@ -32,12 +32,18 @@ function displayResult(data)
     fields[2].children[0].textContent=data.condition.conditions;
     setTempUnit(1-unit);
     fields[5].children[0].textContent=data.description;
+    console.log(data.description);
     
 }
 function cToF(temp)
 {
     return temp*9/5 +32;
 }
+function fToC(temp)
+{
+    return (temp-32)*5/9;
+}
+
 function setTempUnit(unit)
 {
     const container=document.querySelector('.result');
@@ -46,16 +52,16 @@ function setTempUnit(unit)
     let temp2;   
     if(unit===0)
     {
-        temp1=cToF(data.condition.temp);
-        temp2=cToF(data.condition.feelslike);
+        temp1=data.condition.temp.toFixed(1);
+        temp2=data.condition.feelslike.toFixed(1);
 
         fields[3].children[0].textContent=temp1+' °F';
         fields[4].children[0].textContent=temp2+' °F';
         unitBtn.textContent="get Celsius";
     }
     else{
-        temp1=data.condition.temp;
-        temp2=data.condition.feelslike;
+        temp1=fToC(data.condition.temp).toFixed(1);
+        temp2=fToC(data.condition.feelslike).toFixed(1);
         fields[3].children[0].textContent=temp1+' °C';
         fields[4].children[0].textContent=temp2+' °C';
         unitBtn.textContent="get Fahrenheit";
