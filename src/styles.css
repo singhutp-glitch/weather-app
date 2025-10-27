@@ -1,35 +1,53 @@
-*{
+/* *{
   outline: auto;
+} */
+body{
+  margin:0;
 }
-
 .nav{
   font-size: 40px;
   padding: 10px;
+  background-color:#0066a9bf;
 }
 
 form{
-  font-size: 30px;
+  font-size: 35px;
+  font-weight: 700;
   margin: 10px 0;
+  padding: 10px;
 }
 input#searchBox{
   font-size: 30px;
+  border-radius: 10px;
+  border: solid rgba(168, 159, 159, 0.741) 2px;
 }
 .searchBtn{
-  font-size: 20px;
-  padding: 3px;
+  font-size: 25px;
+  padding: 3px 10px;
+  border-radius: 7px;
+  background-color:#258bcfdb;
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-bottom:solid 4px black;
+  border-right:solid 4px black;
 }
 .result{
   font-size: 25px;
   padding: 10px;
   border-radius: 10px;
+  background-color: #8bcaf38c;
+  margin: 10px 20px;
 }
 .result1,.result2,.result3,.result4,.result5,.result6{
   margin:20px;
   font-size: 25px;
   font-weight: 800;
   padding: 10px;
+  border-radius: 15px;
+  background-color: #0773ba84;
 }
 div.result>div>span{
   font-weight: 100;
-  margin-left: 10px;
+  margin-left: 20px;
 }
