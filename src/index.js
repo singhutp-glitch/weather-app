@@ -30,8 +30,7 @@ function displayResult(data)
     fields[0].children[0].textContent=data.address;
     fields[1].children[0].textContent=data.day.datetime;
     fields[2].children[0].textContent=data.condition.conditions;
-    fields[3].children[0].textContent=data.condition.temp+' °C';
-    fields[4].children[0].textContent=data.condition.feelslike+' °C';
+    setTempUnit(1-unit);
     fields[5].children[0].textContent=data.description;
     
 }
@@ -39,7 +38,7 @@ function cToF(temp)
 {
     return temp*9/5 +32;
 }
-function setTempUnit()
+function setTempUnit(unit)
 {
     const container=document.querySelector('.result');
     const fields=container.children;
@@ -53,7 +52,6 @@ function setTempUnit()
         fields[3].children[0].textContent=temp1+' °F';
         fields[4].children[0].textContent=temp2+' °F';
         unitBtn.textContent="get Celsius";
-        unit=1;
     }
     else{
         temp1=data.condition.temp;
@@ -61,7 +59,6 @@ function setTempUnit()
         fields[3].children[0].textContent=temp1+' °C';
         fields[4].children[0].textContent=temp2+' °C';
         unitBtn.textContent="get Fahrenheit";
-        unit=0;
     }
 }
 //main
@@ -87,5 +84,6 @@ searchBtn.addEventListener('click',function(){
 })
 unitBtn.addEventListener('click',function(event)
 {
-    setTempUnit();
+    setTempUnit(unit);
+    unit=1-unit;
 })
