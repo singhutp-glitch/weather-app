@@ -30,8 +30,8 @@ function displayResult(data)
     fields[0].children[0].textContent=data.address;
     fields[1].children[0].textContent=data.day.datetime;
     fields[2].children[0].textContent=data.condition.conditions;
-    fields[3].children[0].textContent=data.condition.temp+'°C';
-    fields[4].children[0].textContent=data.condition.feelslike;
+    fields[3].children[0].textContent=data.condition.temp+' °C';
+    fields[4].children[0].textContent=data.condition.feelslike+' °C';
     fields[5].children[0].textContent=data.description;
     
 }

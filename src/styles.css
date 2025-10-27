@@ -1,3 +1,35 @@
 *{
   outline: auto;
 }
+
+.nav{
+  font-size: 40px;
+  padding: 10px;
+}
+
+form{
+  font-size: 30px;
+  margin: 10px 0;
+}
+input#searchBox{
+  font-size: 30px;
+}
+.searchBtn{
+  font-size: 20px;
+  padding: 3px;
+}
+.result{
+  font-size: 25px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.result1,.result2,.result3,.result4,.result5,.result6{
+  margin:20px;
+  font-size: 25px;
+  font-weight: 800;
+  padding: 10px;
+}
+div.result>div>span{
+  font-weight: 100;
+  margin-left: 10px;
+}
