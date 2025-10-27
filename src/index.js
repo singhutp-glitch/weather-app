@@ -1,6 +1,36 @@
 import "./styles.css";
 console.log("hello");
 
+class weatherApi
+{
+    constructor(){}
+
+    data;
+    async getWeather(location)
+    {
+        const response=await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+location+'?key=3F26HRSJQUHVH5X589RRYHJVR');
+        const data=await response.json();
+        return data;
+    }
+
+    getRequiredData(data)
+    {
+        const address=data.address;
+        const description=data.description;
+        const condition=data.currentConditions;
+        const day=data.days[0];
+        return {address,description,condition,day};
+    }
+
+    async showData(location)
+    {
+        const fullData=await this.getWeather(location);
+        this.data=this.getRequiredData(fullData);
+        domItem.displayResult(this.data);
+    }
+
+}
+
 class domStuff
 {
     constructor()
@@ -51,37 +81,16 @@ class domStuff
     }
 
 }
-async function getWeather(location)
-{
-    const response=await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+location+'?key=3F26HRSJQUHVH5X589RRYHJVR');
-    const data=await response.json();
-    return data;
-}
-function getRequiredData(data)
-{
-    const address=data.address;
-    const description=data.description;
-    const condition=data.currentConditions;
-    const day=data.days[0];
-    return {address,description,condition,day};
-}
-async function showData(location,domItem)
-{
-    const fullData=await getWeather(location);
-    data=getRequiredData(fullData);
-    domItem.displayResult(data);
-    
-}
 
 //main
-let data;
+const apiObject=new weatherApi();
 const domItem=new domStuff();
-showData('london',domItem);
+apiObject.showData('london',domItem);
 const form=document.querySelector('form');
 const searchBox=form.querySelector('input');
 const searchBtn=form.querySelector('button');
 const unitBtn=document.querySelector('.tempUnit');
-console.log(unitBtn);
+
 searchBtn.addEventListener('click',function(){
     const location=searchBox.value;
     if(location==="")
@@ -90,11 +99,11 @@ searchBtn.addEventListener('click',function(){
     }
     else
     {
-        showData(location,domItem);
+        apiObject.showData(location);
     }
 })
 unitBtn.addEventListener('click',function(event)
 {
-    domItem.setTempUnit(domItem.unit,data);
+    domItem.setTempUnit(domItem.unit,apiObject.data);
     domItem.unit=1-domItem.unit;
 })
