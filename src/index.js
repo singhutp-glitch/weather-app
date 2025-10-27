@@ -1,6 +1,56 @@
 import "./styles.css";
 console.log("hello");
 
+class domStuff
+{
+    constructor()
+    {
+
+    }
+    unit=0;
+    displayResult(data)
+    {
+        const container=document.querySelector('.result');
+        const fields=container.children;
+        console.log(fields[0].children);
+        fields[0].children[0].textContent=data.address;
+        fields[1].children[0].textContent=data.day.datetime;
+        fields[2].children[0].textContent=data.condition.conditions;
+        this.setTempUnit(1-this.unit,data);
+        fields[5].children[0].textContent=data.description;
+        console.log(data.description);
+        
+    }
+
+    setTempUnit(unit,data)
+    {
+        const container=document.querySelector('.result');
+        const fields=container.children;
+        let temp1;
+        let temp2;   
+        if(unit===0)
+        {
+            temp1=data.condition.temp.toFixed(1);
+            temp2=data.condition.feelslike.toFixed(1);
+
+            fields[3].children[0].textContent=temp1+' °F';
+            fields[4].children[0].textContent=temp2+' °F';
+            unitBtn.textContent="get Celsius";
+        }
+        else{
+            temp1=this.fToC(data.condition.temp).toFixed(1);
+            temp2=this.fToC(data.condition.feelslike).toFixed(1);
+            fields[3].children[0].textContent=temp1+' °C';
+            fields[4].children[0].textContent=temp2+' °C';
+            unitBtn.textContent="get Fahrenheit";
+        }
+    }
+    fToC(temp)
+    {
+        return (temp-32)*5/9;
+    }
+
+}
 async function getWeather(location)
 {
     const response=await fetch('https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'+location+'?key=3F26HRSJQUHVH5X589RRYHJVR');
@@ -15,63 +65,18 @@ function getRequiredData(data)
     const day=data.days[0];
     return {address,description,condition,day};
 }
-async function showData(location)
+async function showData(location,domItem)
 {
     const fullData=await getWeather(location);
     data=getRequiredData(fullData);
-    displayResult(data);
+    domItem.displayResult(data);
     
 }
-function displayResult(data)
-{
-    const container=document.querySelector('.result');
-    const fields=container.children;
-    console.log(fields[0].children);
-    fields[0].children[0].textContent=data.address;
-    fields[1].children[0].textContent=data.day.datetime;
-    fields[2].children[0].textContent=data.condition.conditions;
-    setTempUnit(1-unit);
-    fields[5].children[0].textContent=data.description;
-    console.log(data.description);
-    
-}
-function cToF(temp)
-{
-    return temp*9/5 +32;
-}
-function fToC(temp)
-{
-    return (temp-32)*5/9;
-}
 
-function setTempUnit(unit)
-{
-    const container=document.querySelector('.result');
-    const fields=container.children;
-    let temp1;
-    let temp2;   
-    if(unit===0)
-    {
-        temp1=data.condition.temp.toFixed(1);
-        temp2=data.condition.feelslike.toFixed(1);
-
-        fields[3].children[0].textContent=temp1+' °F';
-        fields[4].children[0].textContent=temp2+' °F';
-        unitBtn.textContent="get Celsius";
-    }
-    else{
-        temp1=fToC(data.condition.temp).toFixed(1);
-        temp2=fToC(data.condition.feelslike).toFixed(1);
-        fields[3].children[0].textContent=temp1+' °C';
-        fields[4].children[0].textContent=temp2+' °C';
-        unitBtn.textContent="get Fahrenheit";
-    }
-}
 //main
 let data;
-let unit=0;
-showData('london');
-
+const domItem=new domStuff();
+showData('london',domItem);
 const form=document.querySelector('form');
 const searchBox=form.querySelector('input');
 const searchBtn=form.querySelector('button');
@@ -85,11 +90,11 @@ searchBtn.addEventListener('click',function(){
     }
     else
     {
-        showData(location);
+        showData(location,domItem);
     }
 })
 unitBtn.addEventListener('click',function(event)
 {
-    setTempUnit(unit);
-    unit=1-unit;
+    domItem.setTempUnit(domItem.unit,data);
+    domItem.unit=1-domItem.unit;
 })
