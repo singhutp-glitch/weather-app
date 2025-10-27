@@ -14,12 +14,17 @@ function getRequiredData(data)
     const day=data.days[0];
     return {address,condition,day};
 }
-//main
-let data;
-getWeather('london').then(function(fullData){
+function showData(location)
+{
+    getWeather(location).then(function(fullData){
     data=getRequiredData(fullData);
     console.log(data.condition.conditions);
 });
+}
+//main
+let data;
+showData('london');
+
 const form=document.querySelector('form');
 const searchBox=form.querySelector('input');
 const searchBtn=form.querySelector('button');
@@ -31,9 +36,6 @@ searchBtn.addEventListener('click',function(){
     }
     else
     {
-        getWeather(location).then(function(fullData){
-        data=getRequiredData(fullData);
-        console.log(data.condition.conditions);
-});     
+        showData(location);
     }
 })
