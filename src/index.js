@@ -1,5 +1,5 @@
 import "./styles.css";
-console.log("hello");
+
 
 class weatherApi
 {
@@ -28,7 +28,6 @@ class weatherApi
     {
         const fullData=await this.getWeather(location);
         this.data=this.getRequiredData(fullData);
-        console.log(this.data);
     }
 
 }
@@ -44,7 +43,6 @@ class domStuff
     {
         const container=document.querySelector('.result');
         const fields=container.children;
-        console.log(fields[0].children);
         fields[0].children[0].textContent=data.address;
         fields[1].children[0].textContent=data.day.datetime;
         fields[2].children[0].textContent=data.condition.conditions;
@@ -99,10 +97,8 @@ class controlFlow
                 this.newWeather(location);
             }
         })
-        console.log(this.domItem);
         unitBtn.addEventListener('click',(event)=>
         {
-            console.log(this.domItem);
             this.domItem.setTempUnit(this.domItem.unit,this.apiObject.data);
             this.domItem.unit=1-this.domItem.unit;
         })
