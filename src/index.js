@@ -20,3 +20,9 @@ getWeather().then(function(fullData){
     data=getRequiredData(fullData);
     console.log(data.condition);
 });
+const form=document.querySelector('form');
+const searchBox=form.querySelector('input');
+const searchBtn=form.querySelector('button');
+searchBtn.addEventListener('click',function(){
+    console.log(searchBox.value);
+})
